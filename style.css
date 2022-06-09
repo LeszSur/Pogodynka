@@ -1,0 +1,60 @@
+body {
+    min-width: 1200px;
+    background-color:cornsilk;
+    width:auto;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;   }
+
+#naglowek{
+    margin: 20px;
+    font-size: 30px;
+    color:blue}
+
+h1{
+    margin: 20px;
+    font-size: 30px;
+    color:blue}
+
+h2{
+    margin: 20px;
+    font-size: 20px;
+    color:blue}
+
+h3{
+    margin: 20px;
+    font-size: 20px;
+    color:green} 
+    
+div{
+    margin: 10px;
+    font-size: 15px;}
+
+#opisAktualna{
+    margin-left: 100px;
+    color:green}
+
+canvas{
+    margin-left: 40px;}
+
+section {
+    display: flex;}
+
+.loader {
+    justify-content: left;
+    display: none;}
+
+.loader.visible {
+    display: flex;}
+
+#panel{
+    font-size: 14px;
+    color:solid lightskyblue 1px;
+    margin: 10px;
+    padding: 5px;
+    border: solid lightskyblue 1px;
+    border-radius: 15px;}
+
+.selektor {
+  transform: rotate(30deg);
+}
+
+
