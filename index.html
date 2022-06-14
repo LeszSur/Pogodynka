@@ -8,13 +8,11 @@
 </head>
 
 <body>
-
   <section id="wybor">
     <canvas id="obrazek1" height="15"></canvas>
     <canvas id="obrazek2" height="15"></canvas>
     <p>Wybierz miasto:</p>
     <select class="wpisyMiast"></select>
-
     <input id="szukaj"></input>
     <button id="przycisk">Szukaj miast</button>
   </section>
@@ -22,22 +20,25 @@
   <section>
   <h1 id="naglowek">Pogoda aktualna</h1>
   <div id="loader" class="loader">
-    <img src="img/loading.svg" />
-    </div>
+    <img src="loading.svg" />
+  </div>
   </section>
 
   <section>
     <div class="pogodaAktualna"> 
       <div>Temperatura: <span class="temp"></span></div>
       <div>Zachmurzenie: <span class="zachmurzenie"></span></div>
-      <div>Wiatr: <span class="wiatr"></span></div>
+      <div>Wiatr: <span class="wiatr"></span>
+      <table>
+        <tr><td id="wiatrAktualna">
+        </td></tr>
+      </table></div>
     </div>
     <div>
       <h1 id="opisAktualna"></h1>
     </div>
     <div>
       <canvas id="obrazekAktualna" height="120" width="300"></canvas>
-      <canvas id="obrazekWiatr" height="120" width="120"></canvas>      
     </div>
   </section>
 
@@ -49,7 +50,11 @@
       <div class="pogodaDzisiaj">
         <div>Temperatura: <span class="temp"></span></div>
         <div>Zachmurzenie: <span class="zachmurzenie"></span></div>
-        <div>Wiatr: <span class="wiatr"></span></div>
+        <div>Wiatr: <span class="wiatr"></span>
+        <table>
+          <tr><td id="wiatrDzisiaj">
+          </td></tr>
+        </table></div>
       </div>
     </div>
     <div id="panel">
@@ -59,7 +64,11 @@
       <div class="pogodaJutro">
         <div>Temperatura: <span class="temp"></span></div>
         <div>Zachmurzenie: <span class="zachmurzenie"></span></div>
-        <div>Wiatr: <span class="wiatr"></span></div>
+        <div>Wiatr: <span class="wiatr"></span>
+        <table>
+          <tr><td id="wiatrJutro">
+          </td></tr>
+        </table></div>
       </div>
     </div>
     <div id="panel">
@@ -69,7 +78,11 @@
       <div class="pogodaPojutrze">
         <div>Temperatura: <span class="temp"></span></div>
         <div>Zachmurzenie: <span class="zachmurzenie"></span></div>
-        <div>Wiatr: <span class="wiatr"></span></div>
+        <div>Wiatr: <span class="wiatr"></span>
+        <table>
+          <tr><td id="wiatrPojutrze">
+          </td></tr>
+        </table></div>
       </div>
     </div>
   </section>
@@ -107,7 +120,7 @@
     let elementPrzycisk = document.querySelector("#przycisk");
     let loader = document.querySelector("#loader");
 
- 
+
     function lista(wpisMiasta) {
       let nowyWpisMiasta = document.createElement("option");
       nowyWpisMiasta.value = wpisMiasta;
@@ -126,28 +139,33 @@
         ctx.drawImage(image, 0, 0, canvas.width - 200, canvas.height - 20);
       });
       switch (a) {
-        case "burza": image.src = "img/burza.png";
+        case "burza": image.src = "burza.png";
           break;
-        case "chmury1": image.src = "img/chmury1.png";
+        case "chmury1": image.src = "chmury1.png";
           break;
-        case "chmury2": image.src = "img/chmury2.png";
+        case "chmury2": image.src = "chmury2.png";
           break;
-        case 'chmury3': image.src = "img/chmury3.png";
+        case 'chmury3': image.src = "chmury3.png";
           break;
-        case 'deszcz1': image.src = "img/deszcz1.png";
+        case 'deszcz1': image.src = "deszcz1.png";
           break;
-        case 'deszcz2': image.src = "img/deszcz2.png";
+        case 'deszcz2': image.src = "deszcz2.png";
           break;
-        case 'mgla': image.src = "img/mgla.png";
+        case 'mgla': image.src = "mgla.png";
           break;
-        case 'slonce': image.src = "img/slonce.png";
+        case 'slonce': image.src = "slonce.png";
           break;
-        case 'snieg': image.src = "img/snieg.png";
-          break;
-        case 'wiatr': image.src = "img/wiatr.png";
+        case 'snieg': image.src = "snieg.png";
           break;
       };
     };
+
+    function ustawWiatr(a, b) {
+
+      const obrot = 'rotate('+ a +'deg)';
+      document.querySelector(b).innerHTML = "<img src='wiatr.png' width=35>";
+      document.querySelector(b).style.transform = obrot;
+    } 
 
     function pobierzMiasta(szukaj) {
 
@@ -162,8 +180,8 @@
           setTimeout(() => {
 
             loader.classList.remove("visible");
-          
-  
+
+
           for (i = 0; i < res.length; i++) {
             miasta.push(res[i].nazwa);
             lista(miasta[miasta.length - 1]);
@@ -193,37 +211,40 @@
             elementTerazNaglowek.innerHTML = "Pogoda aktualna - " + miasto;
             elementTerazOpis.innerHTML = res.teraz.opis;
             wstawObrazek(res.teraz.ikonka, "#obrazekAktualna");
-            wstawObrazek(res.teraz.wiatrKierunek, "#obrazekWiatr");
+            ustawWiatr(res.teraz.wiatrKierunek, "#wiatrAktualna");
             elementTerazTemp.innerHTML = res.teraz.temperatura + " °C";
             elementTerazZachmurzenie.innerHTML = res.teraz.zachmurzenie + "%, ";
             elementTerazWiatr.innerHTML = res.teraz.wiatrKierunekSłownie + ", prędkość: " + res.teraz.wiatrPrędkość + " m/s";
 
             elementDzisiajOpis.innerHTML = res.prognoza.dziś.opis;
             wstawObrazek(res.prognoza.dziś.ikonka, "#obrazekDzisiaj");
+            ustawWiatr(res.prognoza.dziś.wiatrKierunek, "#wiatrDzisiaj");
             elementDzisiajTemp.innerHTML = res.prognoza.dziś.temperatura + " °C";
             elementDzisiajZachmurzenie.innerHTML = res.prognoza.dziś.zachmurzenie + "%, ";
             elementDzisiajWiatr.innerHTML = res.prognoza.dziś.wiatrKierunekSłownie + ", prędkość: " + res.prognoza.dziś.wiatrPrędkość + " m/s";
 
             elementJutroOpis.innerHTML = res.prognoza.jutro.opis;
             wstawObrazek(res.prognoza.jutro.ikonka, "#obrazekJutro");
+            ustawWiatr(res.prognoza.jutro.wiatrKierunek, "#wiatrJutro");
             elementJutroTemp.innerHTML = res.prognoza.jutro.temperatura + " °C";
             elementJutroZachmurzenie.innerHTML = res.prognoza.jutro.zachmurzenie + "%, ";
             elementJutroWiatr.innerHTML = res.prognoza.jutro.wiatrKierunekSłownie + ", prędkość: " + res.prognoza.jutro.wiatrPrędkość + " m/s";
 
             elementPojutrzeOpis.innerHTML = res.prognoza.pojutrze.opis;
             wstawObrazek(res.prognoza.pojutrze.ikonka, "#obrazekPojutrze");
+            ustawWiatr(res.prognoza.pojutrze.wiatrKierunek, "#wiatrPojutrze");
             elementPojutrzeTemp.innerHTML = res.prognoza.pojutrze.temperatura + " °C";
             elementPojutrzeZachmurzenie.innerHTML = res.prognoza.pojutrze.zachmurzenie + "%, ";
             elementPojutrzeWiatr.innerHTML = res.prognoza.pojutrze.wiatrKierunekSłownie + ", prędkość: " + res.prognoza.jutro.wiatrPrędkość + " m/s";
 
 
-            document.querySelector("#containerMessages").innerHTML = "zakończono wczytywanie danych@żródło:herokuapp.com.Hubert.Zub";
+            document.querySelector("#containerMessages").innerHTML = "zakończono wczytywanie danych@żródło:herokuapp.Hubert.Zub";
             document.querySelector("#containerMessages").style.color = "blue";
 
            }, 500);
         })
           .catch(error => document.querySelector("#opisAktualna").innerHTML = "błąd wczytywania danych")
-        
+
     };
 
     window.addEventListener("load", () => {
@@ -246,7 +267,6 @@
       });
 
     });
-
 
 
   </script>
